@@ -21,8 +21,10 @@ class orderedList
 
     orderedList();
     void insert(int n);
-    int pop();
+    void pop(int n);
     void list();
+
+    void handleEmptyStructure();
 };
 
 #endif

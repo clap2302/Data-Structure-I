@@ -47,7 +47,6 @@ void orderedList::insert(int n)
             }
             else
             {
-                // entre um e outro
                 behind->next = newNodo;
                 newNodo->next = temp;
             }
@@ -55,12 +54,42 @@ void orderedList::insert(int n)
     }
 }
 
+void orderedList::pop(int n)
+{
+    this->handleEmptyStructure();
+    
+    nodo *behind = this->start;
+    nodo *temp = this->start;
+
+    while (temp != nullptr && temp->info != n)
+    {
+        behind = temp;
+        temp = temp->next;
+
+    }
+    
+    if (temp == nullptr)
+    {
+        std::cout << "Number " << n << " was not encountered!!" << std::endl;
+        return;
+    }
+
+    // Encountered number to be poped 
+    if (temp == this->start)
+    {
+        this->start = this->start->next;
+    }
+    else
+    {
+        behind->next = temp->next;
+    }
+    delete temp;
+   
+}
+
 void orderedList::list()
 {
-    if (this->start == nullptr)
-    {
-        std::cout << "The queue is empty" << std::endl;
-    }
+    this->handleEmptyStructure();
 
     nodo *temp = this->start;
 
@@ -71,6 +100,15 @@ void orderedList::list()
     }
 }
 
+void orderedList::handleEmptyStructure()
+{
+    if (this->start == nullptr)
+    {
+        std::cout << "The structure is empty" << std::endl;
+        exit(0);
+    }
+}
+
 int main()
 {
     orderedList lista = orderedList();
@@ -78,6 +116,11 @@ int main()
     lista.insert(10);
     lista.insert(5);
     lista.insert(1);
+    lista.insert(11);
+    lista.insert(0);
+    lista.insert(7);
+    lista.pop(0);
+    lista.pop(11);
     lista.list();
 
 }
