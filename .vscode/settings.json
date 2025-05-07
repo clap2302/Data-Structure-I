@@ -59,6 +59,7 @@
   "files.associations": {
     "Makefiel": "makefile",
     "*.py": "python",
-    "new": "cpp"
+    "new": "cpp",
+    "unordered_map": "cpp"
   }
 }
