@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 
@@ -17,7 +18,9 @@ private:
 public:
     task2();
     Node * insert(std::string info, Node *currentNode);
-    Node * changeWord(bool isNextWord);
+    Node * changeWord(std::string newString, Node *currentNode);
+    Node * removeWord(Node *currentNode);
+    std::string showSentence();
 
 };
 
@@ -59,9 +62,51 @@ Node * task2::insert(std::string info, Node *currentNode)
     return newNode;
 }
 
-Node *task2::changeWord(bool isNextWord)
+Node *task2::changeWord(std::string newString, Node *currentNode)
 {
-    return nullptr;
+    currentNode->info = newString;
+    return currentNode;
+}
+
+Node *task2::removeWord(Node *currentNode)
+{
+    if (currentNode->next == currentNode)
+    {
+        delete currentNode;
+        return nullptr;
+    }
+    else
+    {
+        currentNode->next->behind = currentNode->behind;
+        currentNode->behind->next = currentNode->next;
+        Node *aux = currentNode->next;
+
+        delete currentNode;
+        return aux;
+    }
+}
+
+std::string task2::showSentence()
+{
+    Node *temp = this->start;
+    std::string sentence;
+    
+    do
+    {
+        sentence += temp->info + " ";
+        temp = temp->next;
+    } while (temp != this->start);
+
+    return sentence;
+}
+
+void clearScreen() 
+{
+    #ifdef _WIN32
+        system("cls");   // Windows
+    #else
+        system("clear"); // Linux / macOS
+    #endif
 }
 
 int main()
@@ -74,18 +119,25 @@ int main()
     while (true)
     {
         char option;
+        
         if (currentNode != nullptr)
+        {
+            std::cout << "\n\n\nFrase: " << editor.showSentence() << std::endl;
             std::cout << "\n\nPalavra atual: " << currentNode->info << std::endl;
+        }
         else
+        {
+            std::cout << "\n\n\nFrase: " << "*FRASE VAZIA*" << std::endl;
             std::cout << "\n\nPalavra atual: " << "*FRASE VAZIA*" << std::endl;
+        }
         
         std::cout << "\n\nInsira uma opção: " << std::endl;
-        std::cout << "Editar palavra atual: e" << std::endl;
-        std::cout << "Inserir palavra depois da atual: i" << std::endl;
-        std::cout << "Eliminar palavra atual: r" << std::endl;
-        std::cout << "Palavra anterior: a" << std::endl;
-        std::cout << "Palavra posterior: p" << std::endl;
-        std::cout << "Sair: s" << std::endl;
+        std::cout << "e -> Editar palavra atual" << std::endl;
+        std::cout << "i -> Inserir palavra depois da atual" << std::endl;
+        std::cout << "r -> Eliminar palavra atual" << std::endl;
+        std::cout << "< -> Palavra anterior" << std::endl;
+        std::cout << "> -> Palavra posterior" << std::endl;
+        std::cout << "s -> Sair" << std::endl;
 
         std::cout << "\nDigite sua opção: ";
         std::cin >> option;
@@ -93,6 +145,9 @@ int main()
         switch (option)
         {
         case 'e':
+            std::cout << "\nDigite a nova palavra: ";
+            std::cin >> newWord;
+            currentNode = editor.changeWord(newWord, currentNode);
             break;
         
         case 'i':
@@ -102,13 +157,14 @@ int main()
             break;
         
         case 'r':
+            currentNode = editor.removeWord(currentNode);
             break;
         
-        case 'a':
+        case '<':
             currentNode = currentNode->behind;
             break;
         
-        case 'p':
+        case '>':
             currentNode = currentNode->next;
             break;
         
@@ -118,6 +174,8 @@ int main()
         default:
             std::cout << "Selecione uma opção válida!!" << std::endl;
         }
+
+        clearScreen();
     }
     
 }
