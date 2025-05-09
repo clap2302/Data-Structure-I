@@ -81,6 +81,9 @@ Node *task2::removeWord(Node *currentNode)
         currentNode->behind->next = currentNode->next;
         Node *aux = currentNode->next;
 
+        if (currentNode == this->start)
+            this->start = aux;
+
         delete currentNode;
         return aux;
     }
