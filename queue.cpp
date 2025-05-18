@@ -63,6 +63,99 @@ void queue::list()
     }
 }
 
+nodo *queue::zip(nodo * startList)
+{
+    nodo *start, *current, *temp;
+
+    if (startList == nullptr)
+    {
+        return nullptr;
+    }
+    current = startList;
+
+    while (current != nullptr)
+    {
+        nodo *cont = new nodo();
+        temp = current;
+
+        while (temp != nullptr)
+        {
+            if (temp == current)
+            {
+                cont->info += 1;
+                temp->next = temp;
+            }
+            else
+            {
+                cont->next = temp;
+                break;
+            }
+        }
+        
+        current = temp;
+    }
+    return start;    
+}
+
+nodo *queue::intercalate(nodo *x, nodo *y)
+{
+    nodo *start, *end, *tempx, *tempy;
+    start = nullptr;
+
+    if (x == nullptr)
+    {
+        start = y;
+    }
+    else
+    {
+        if (y == nullptr)
+        {
+            start = x;
+        }
+        else
+        {
+            while (x != nullptr && y != nullptr)
+            {
+                tempx = x;
+                tempy = y;
+                x = x->next;
+                y = y->next;
+
+                tempx->next = tempy;
+                tempy->next = nullptr;
+
+                if (start == nullptr)
+                {
+                    start = tempx;
+                    end = tempy;
+                }
+                else
+                {
+                    end->next = tempx;
+                    end = tempy;
+                }
+            }
+
+            if (x == nullptr)
+            {
+                if (y == nullptr)
+                {
+                    return start;
+                }
+                else
+                {
+                    end->next = y;
+                }
+            }
+            else
+            {
+                end->next = x;
+            }
+        }
+    }
+    return start;
+}
+
 int main()
 {
     queue lista = queue();

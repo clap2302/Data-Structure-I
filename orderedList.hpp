@@ -5,10 +5,10 @@
 #include <iostream>
 using namespace std;
 
-struct nodo
+struct Node
 {
     int info;
-    struct nodo *next;
+    struct Node *next;
 };
 
 class orderedList
@@ -16,13 +16,24 @@ class orderedList
     private:
     
     public:
-    nodo *start;
-    nodo *end;
+    Node *start;
+    Node *end;
 
     orderedList();
+    orderedList(Node *start);
     void insert(int n);
-    void pop(int n);
+    int pop(int n);
     void list();
+
+    /*
+    *  FIRST QUESTION
+    */
+    
+    bool isOddPrime(int n);
+    orderedList popOddPrimes();
+    void insertInDescendingOrder(Node *&node, Node *&startList);
+    void cleanList(Node *&startList);
+
 
     void handleEmptyStructure();
 };

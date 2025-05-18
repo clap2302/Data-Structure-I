@@ -21,6 +21,11 @@ class queue
     void insert(int n);
     int pop();
     void list();
+
+    nodo * zip(nodo *startList);
+    nodo * unzip(nodo *startList);
+    nodo * intercalate(nodo *firstList, nodo *secondList);
+
 };
 
 #endif
