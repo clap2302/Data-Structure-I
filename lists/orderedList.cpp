@@ -201,6 +201,51 @@ void orderedList::cleanList(Node *&startList)
     startList = nullptr;
 }
 
+void orderedList::sortInAscendigOrder()
+{
+    Node *current, *prevCurr, *temp, *prevTemp;
+
+    if (this->start == nullptr)
+        exit(1);
+
+    current = this->start->next;
+    prevCurr = this->start;
+
+    while (current != nullptr)
+    {
+        temp = this->start;
+        prevTemp = nullptr;
+
+        while (current != temp && temp->info >= current->info)
+        {
+            prevTemp = temp;
+            temp = temp->next;
+        }
+
+        if (temp == this->start)
+        {
+            prevCurr = current->next;
+            current->next = this->start;
+            this->start = current;
+        }
+        else
+        {
+            prevCurr->next = current->next;
+            current->next = temp;
+            prevTemp->next = current;
+        }
+
+        if (temp == current)
+        {
+            prevCurr = current;
+            current = current->next;
+        }
+        else
+            current = prevCurr->next;
+        
+    }
+}
+
 void orderedList::handleEmptyStructure()
 {
     if (this->start == nullptr)

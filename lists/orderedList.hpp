@@ -33,6 +33,7 @@ class orderedList
     orderedList popOddPrimes();
     void insertInDescendingOrder(Node *&node, Node *&startList);
     void cleanList(Node *&startList);
+    void sortInAscendigOrder();
 
 
     void handleEmptyStructure();
