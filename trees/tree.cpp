@@ -15,6 +15,8 @@
 
         Tree();
         node *insert(node *&root, int n);
+        node *remove(node *root, int n);
+        node *replaceByLeft(node *root, node *previous);
         void order(node *root);
         int search(node *root, int n);
         int countNodes(node *root);
@@ -55,6 +57,65 @@
             std::cout << "The number 'n' already exists in the Tree";
 
         return root;
+    }
+
+    node *Tree::remove(node *root, int n)
+    {
+        node *temp;
+
+        if (root == nullptr)
+            return root;
+        
+        /* Moves towards right direction */
+        if (n > root->info)
+            root->right = this->remove(root->right, n);
+        
+        /* Moves towards left direction */
+        else if (n < root->info)
+            root->left = this->remove(root->left, n);
+        
+        /* The element was found */
+        else
+        {
+            /* In case of the left node is nullptr*/
+            if (root->left == nullptr)
+            {
+                temp = root;
+                root = root->right;
+                delete temp;
+                return root;
+            }
+            
+            /* In case of the right node is nullptr */
+            else if (root->right == nullptr)
+            {
+                temp = root;
+                root = root->left;
+                delete temp;
+                return root;
+            }
+            
+            /* In case both sides are not nullptr */
+            else
+            {
+                root->left = this->replaceByLeft(root, root->left);
+            }
+        }
+    }
+
+    node *Tree::replaceByLeft(node *root, node *previous)
+    {
+        if (previous->right != nullptr)
+            previous->right = replaceByLeft(root, previous->right);
+
+        else
+        {
+            root->info = previous->info;
+            node *temp = previous;
+            previous = previous->left;
+            delete temp;
+            return previous;
+        }
     }
 
     void Tree::order(node *root)
