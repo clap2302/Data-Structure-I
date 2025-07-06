@@ -1,5 +1,5 @@
-    #include <cstdlib>
-    #include <iostream>
+#include <cstdlib>
+#include <iostream>
 
     struct node
     {
@@ -23,6 +23,8 @@
         int countLeaf(node *root);
         bool isFullBinaryTree(node *root);
         bool fixNonFullBinaryTree(node *root);
+        int treeHeight(node *root);
+        node *deepPrint(node *root);
     };
 
     Tree::Tree()
@@ -195,6 +197,21 @@
         return (this->fixNonFullBinaryTree(root->left) && this->fixNonFullBinaryTree(root->right));
     }
 
+    int Tree::treeHeight(node *root)
+    {
+    if (root == nullptr)
+        return -1;
+
+        int leftCount = this->treeHeight(root->left);
+        int rightCount = this->treeHeight(root->right);
+
+        if (leftCount >= rightCount)
+        return leftCount + 1;
+
+    else
+        return rightCount + 1;
+    }
+
     int main()
     {
         Tree tree = Tree();
@@ -211,3 +228,4 @@
         std::cout << "Is Tree Full Binary: " << (tree.isFullBinaryTree(tree.root)) << std::endl;
         std::cout << "Fixed Tree as Full Binary: " << (tree.fixNonFullBinaryTree(tree.root)) << std::endl;
     }
+
